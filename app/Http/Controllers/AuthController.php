@@ -93,33 +93,34 @@ class AuthController extends Controller
             ]
         );
 
-        $actionLink = route('admin.reset_password_form',['token'=>$token]);
+        $actionLink = route('admin.reset_password_form', ['token' => $token]);
 
         $data = [
-            'actionlink' =>$actionLink,
-            'user'=>$user
+            'actionlink' => $actionLink,
+            'user' => $user
         ];
 
-        $mail_body = view('email-templates.forgot-template',$data)->render();
+        $mail_body = view('email-templates.forgot-template', $data)->render();
 
         $mailConfig = [
-            'recipient_address'=>$user->email,
-            'recipient_name'=>$user->name,
-            'subject'=>'Reset Password',
-            'body'=>$mail_body
+            'recipient_address' => $user->email,
+            'recipient_name' => $user->name,
+            'subject' => 'Reset Password',
+            'body' => $mail_body
         ];
 
         return CMail::send($mailConfig)
-            ? redirect()->route('admin.forgot')->with('success','We have e-mailed your password reset link.')
-            : redirect()->route('admin.forgot')->with('fail','Something went wrong. Resetting password link not sent. Try again later.');
+            ? redirect()->route('admin.forgot')->with('success', 'We have e-mailed your password reset link.')
+            : redirect()->route('admin.forgot')->with('fail', 'Something went wrong. Resetting password link not sent. Try again later.');
     }
 
-    public function resetForm(Request $request, $token = null) {
-        // Valida o token
-        $tokenExists = PasswordResetToken::where('token', $token)->first();
+    public function resetForm(Request $request, $token = null)
+    {
+        // Valida o se o token existe e se ele não está expirado
+        $tokenStatus = PasswordResetToken::checkToken($token);
 
-        // Se o token não existir, redireciona para a pagina 'Forgot Password' novamente com uma mensagem de falha
-        if(!$tokenExists)  redirect()->route('admin.forgot')->with('fail','Invalid token. Request another reset password link.');
+        // Se o token não existir ou for inválido, redireciona para a pagina 'Forgot Password' novamente com uma mensagem de falha
+        if ($tokenStatus !== true)  return redirect()->route('admin.forgot')->with('fail', $tokenStatus);
 
         // Cria array de dados a serem enviados à view
         $data = [
@@ -127,10 +128,11 @@ class AuthController extends Controller
             'token' => $token
         ];
 
-        return view('back.pages.auth.reset',$data);
+        return view('back.pages.auth.reset', $data);
     }
 
-    public function resetPasswordHandler(ResetPasswordRequest $request){
+    public function resetPasswordHandler(ResetPasswordRequest $request)
+    {
 
         // Busca o ticket de 'Reset Password' com base no token recebido
         $resetToken = PasswordResetToken::where('token', $request->token)->first();
@@ -140,27 +142,27 @@ class AuthController extends Controller
 
         // Atualiza a 'Password'
         $user->update([
-            'password'=> Hash::make($request->new_password)
+            'password' => Hash::make($request->new_password)
         ]);
 
         // Envia notificação ao email do usuário correspondente cujo a senha foi alterada
         $data = [
-            'user'=>$user,
-            'new_password'=>$request->new_password
+            'user' => $user,
+            'new_password' => $request->new_password
         ];
-        $mail_body = view('email-templates.password-changes-template',$data)->render();
+        $mail_body = view('email-templates.password-changes-template', $data)->render();
 
         $mail_config = [
-            'recipient_address'=>$user->email,
-            'recipient_name'=>$user->name,
-            'subject'=>'Password Changed',
-            'body'=>$mail_body
+            'recipient_address' => $user->email,
+            'recipient_name' => $user->name,
+            'subject' => 'Password Changed',
+            'body' => $mail_body
         ];
 
         // Se o envio do Email não der certo, redireciona para página de 'Reset Password' com uma mensagem
-        if(!CMail::send($mail_config))
-            return redirect()->route('admin.reset_password_form',['token'=>$resetToken->token])
-                    ->with('fail','Something went wrong. Try again later.');
+        if (!CMail::send($mail_config))
+            return redirect()->route('admin.reset_password_form', ['token' => $resetToken->token])
+                ->with('fail', 'Something went wrong. Try again later.');
 
         // Deleta o token no banco de dados
         $resetToken->delete();

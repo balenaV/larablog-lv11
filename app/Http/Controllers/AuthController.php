@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\CMail;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\UserStatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -108,5 +112,59 @@ class AuthController extends Controller
         return CMail::send($mailConfig)
             ? redirect()->route('admin.forgot')->with('success','We have e-mailed your password reset link.')
             : redirect()->route('admin.forgot')->with('fail','Something went wrong. Resetting password link not sent. Try again later.');
+    }
+
+    public function resetForm(Request $request, $token = null) {
+        // Valida o token
+        $tokenExists = PasswordResetToken::where('token', $token)->first();
+
+        // Se o token não existir, redireciona para a pagina 'Forgot Password' novamente com uma mensagem de falha
+        if(!$tokenExists)  redirect()->route('admin.forgot')->with('fail','Invalid token. Request another reset password link.');
+
+        // Cria array de dados a serem enviados à view
+        $data = [
+            'pageTitle' => 'Reset Password',
+            'token' => $token
+        ];
+
+        return view('back.pages.auth.reset',$data);
+    }
+
+    public function resetPasswordHandler(ResetPasswordRequest $request){
+
+        // Busca o ticket de 'Reset Password' com base no token recebido
+        $resetToken = PasswordResetToken::where('token', $request->token)->first();
+
+        // Busca o usuário
+        $user = User::where('email', $resetToken->email)->first();
+
+        // Atualiza a 'Password'
+        $user->update([
+            'password'=> Hash::make($request->new_password)
+        ]);
+
+        // Envia notificação ao email do usuário correspondente cujo a senha foi alterada
+        $data = [
+            'user'=>$user,
+            'new_password'=>$request->new_password
+        ];
+        $mail_body = view('email-templates.password-changes-template',$data)->render();
+
+        $mail_config = [
+            'recipient_address'=>$user->email,
+            'recipient_name'=>$user->name,
+            'subject'=>'Password Changed',
+            'body'=>$mail_body
+        ];
+
+        // Se o envio do Email não der certo, redireciona para página de 'Reset Password' com uma mensagem
+        if(!CMail::send($mail_config))
+            return redirect()->route('admin.reset_password_form',['token'=>$resetToken->token])
+                    ->with('fail','Something went wrong. Try again later.');
+
+        // Deleta o token no banco de dados
+        $resetToken->delete();
+
+        return redirect()->route('admin.login')->with('success', 'Done! Your password has been changed succefully. User your new password for login into system.');
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use PHPUnit\Event\Code\Throwable;
 
 class AdminController extends Controller
 {
@@ -28,6 +29,21 @@ class AdminController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login')->with('fail','You are now logged out!');
+        return redirect()->route('admin.login')->with('fail', 'You are now logged out!');
+    }
+
+    public function profileView(Request $request)
+    {
+        try {
+            $data = [
+                'pageTitle' => 'Profile'
+            ];
+
+            return view('back.pages.profile', $data);
+        } catch (Throwable $e) {
+            Log::error("Erro ao carregar a página de perfil: " . $e->getMessage());
+
+            return redirect()->route('admin.dashboard')->with('error', 'Erro ao abrir perfil.');
+        }
     }
 }

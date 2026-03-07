@@ -1,25 +1,14 @@
-<?php
-
-use Livewire\Component;
-
-new class extends Component
-{
-    //
-};
-?>
-
 <div>
     <div class="row">
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
             <div class="pd-20 card-box height-100-p">
                 <div class="profile-photo">
-                    <a href="" class="edit-avatar"><i
-                            class="fa fa-pencil"></i></a>
-                    <img src="vendors/images/photo1.jpg" alt="" class="avatar-photo">
+                    <a href="" class="edit-avatar"><i class="fa fa-pencil"></i></a>
+                    <img src="{{ $user->picture }}" alt="" class="avatar-photo">
                 </div>
-                <h5 class="text-center h5 mb-0">Ross C. Lopez</h5>
+                <h5 class="text-center h5 mb-0">{{ $user->name }}</h5>
                 <p class="text-center text-muted font-14">
-                    Lorem ipsum dolor sit amet
+                    {{ $user->email }}
                 </p>
                 <div class="profile-social">
                     <h5 class="mb-20 h5 text-blue">Social Links</h5>
@@ -84,29 +73,81 @@ new class extends Component
                     <div class="tab height-100-p">
                         <ul class="nav nav-tabs customtab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#personal_details"
-                                    role="tab">Personal details</a>
+                                <a wire:click="selectTab('personal_details')"
+                                    class="nav-link {{ $tab == 'personal_details' ? 'active' : '' }}" data-toggle="tab"
+                                    href="#personal_details" role="tab">Personal details</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#update_password" role="tab">Update password</a>
+                                <a wire:click="selectTab('update_password')"
+                                    class="nav-link {{ $tab == 'update_password' ? 'active' : '' }}" data-toggle="tab"
+                                    href="#update_password" role="tab">Update password</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#social_links" role="tab">Social Links</a>
+                                <a wire:click="selectTab('social_links')"
+                                    class="nav-link {{ $tab == 'social_links' ? 'active' : '' }}" data-toggle="tab"
+                                    href="#social_links" role="tab">Social Links</a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <!-- Tab start -->
-                            <div class="tab-pane fade show active" id="personal_details" role="tabpanel">
+                            <div class="tab-pane fade {{ $tab == 'personal_details' ? 'show active' : '' }}"
+                                id="personal_details" role="tabpanel">
                                 <div class="pd-20">
-                                    ---- Personal Details ----
+                                    <form action="">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="">Full name</label>
+                                                    <input type="text" class="form-control" wire:model="name"
+                                                        placeholder="Enter full name">
+                                                    @error('name')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="">Email</label>
+                                                    <input type="text" class="form-control" wire:model="email"
+                                                        placeholder="Enter email address">
+                                                    @error('email')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="">Username</label>
+                                                    <input type="text" class="form-control" wire:model="username"
+                                                        placeholder="Enter username">
+                                                    @error('username')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="">Bio</label>
+                                                    <textarea class="form-control" wire:model="bio" cols="4" rows="4" placeholder="Type your bio..."></textarea>
+                                                    @error('bio')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group"><button type="submit" class="btn btn-primary">Save
+                                                changes</button></div>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="update_password" role="tabpanel">
+                            <div class="tab-pane fade {{ $tab == 'update_password' ? 'show active' : '' }}"
+                                id="update_password" role="tabpanel">
                                 <div class="pd-20 profile-task-wrap">
                                     ---- Update Password ----
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="social_links" role="tabpanel">
+                            <div class="tab-pane fade {{ $tab == 'social_links' ? 'show active' : '' }}"
+                                id="social_links" role="tabpanel">
                                 <div class="pd-20 profile-task-wrap">
                                     ---- Social Links ----
                                 </div>
@@ -142,14 +183,14 @@ new class extends Component
                                                     <label>Gender</label>
                                                     <div class="d-flex">
                                                         <div class="custom-control custom-radio mb-5 mr-20">
-                                                            <input type="radio" id="customRadio4" name="customRadio"
-                                                                class="custom-control-input">
+                                                            <input type="radio" id="customRadio4"
+                                                                name="customRadio" class="custom-control-input">
                                                             <label class="custom-control-label weight-400"
                                                                 for="customRadio4">Male</label>
                                                         </div>
                                                         <div class="custom-control custom-radio mb-5">
-                                                            <input type="radio" id="customRadio5" name="customRadio"
-                                                                class="custom-control-input">
+                                                            <input type="radio" id="customRadio5"
+                                                                name="customRadio" class="custom-control-input">
                                                             <label class="custom-control-label weight-400"
                                                                 for="customRadio5">Female</label>
                                                         </div>
@@ -157,10 +198,11 @@ new class extends Component
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Country</label>
-                                                    <div class="dropdown bootstrap-select form-control form-control-lg">
+                                                    <div
+                                                        class="dropdown bootstrap-select form-control form-control-lg">
                                                         <select class="selectpicker form-control form-control-lg"
-                                                            data-style="btn-outline-secondary btn-lg" title="Not Chosen"
-                                                            tabindex="-98">
+                                                            data-style="btn-outline-secondary btn-lg"
+                                                            title="Not Chosen" tabindex="-98">
                                                             <option class="bs-title-option" value=""></option>
                                                             <option>United States</option>
                                                             <option>India</option>
@@ -172,14 +214,16 @@ new class extends Component
                                                             aria-expanded="false" title="Not Chosen">
                                                             <div class="filter-option">
                                                                 <div class="filter-option-inner">
-                                                                    <div class="filter-option-inner-inner">Not Chosen</div>
+                                                                    <div class="filter-option-inner-inner">Not Chosen
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </button>
                                                         <div class="dropdown-menu ">
                                                             <div class="inner show" role="listbox" id="bs-select-3"
                                                                 tabindex="-1">
-                                                                <ul class="dropdown-menu inner show" role="presentation">
+                                                                <ul class="dropdown-menu inner show"
+                                                                    role="presentation">
                                                                 </ul>
                                                             </div>
                                                         </div>

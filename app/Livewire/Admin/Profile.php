@@ -33,6 +33,30 @@ class Profile extends Component
             $this->tab = 'personal_details';
         }
     }
+
+    public function updatePersonalDetails()
+    {
+        $user = auth()->user();
+
+        $validatedData = $this->validate([
+            'name' => 'required',
+            'username' => 'required|unique:users,username,' . $user->id,
+            'bio' => 'nullable|string'
+        ]);
+
+        $userUpdated = $user->update($validatedData);
+
+        if ($userUpdated) {
+            $this->dispatch('showToastr',
+            type: 'success',
+             message: 'Your personal details have been updated successfully.');
+             $this->dispatch('updateTopUserInfo')->to(TopUserInfo::class);
+        } else {
+            $this->dispatch('showToastr',
+             type: 'error',
+             message: 'Something went wrong.');
+        }
+    }
     public function render()
     {
         return view('livewire.admin.profile', [

@@ -345,8 +345,8 @@
                 </div>
             </div>
             <div class="footer-wrap pd-20 mb-20 card-box">
-                DeskApp - Bootstrap 4 Admin Template By
-                <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
+                Larablog developed By
+                <a href="https://github.com/balenaV" target="_blank">Victor Balena</a>
             </div>
         </div>
     </div>
@@ -356,6 +356,35 @@
     <script src="/back/vendors/scripts/script.min.js"></script>
     <script src="/back/vendors/scripts/process.js"></script>
     <script src="/back/vendors/scripts/layout-settings.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Configura o visual padrão do Toast no SweetAlert2
+        const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        width: 'auto',
+        padding: '0.5em 1em',
+        color: '#fff',
+        iconColor: '#fff',
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+        // Escuta o evento do seu PHP Livewire perfeitamente
+        window.addEventListener('showToastr', function(event) {
+            const isSuccess = event.detail.type === 'success';
+            Toast.fire({
+                icon: event.detail.type, // Usa o 'success' ou 'error' do seu PHP
+                title: event.detail.message,
+                background: isSuccess ? '#22c55e' : '#ef4444'
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 

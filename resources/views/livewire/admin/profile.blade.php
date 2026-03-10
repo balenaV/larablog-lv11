@@ -93,7 +93,7 @@
                             <div class="tab-pane fade {{ $tab == 'personal_details' ? 'show active' : '' }}"
                                 id="personal_details" role="tabpanel">
                                 <div class="pd-20">
-                                    <form action="">
+                                    <form wire:submit="updatePersonalDetails()">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -109,7 +109,7 @@
                                                 <div class="form-group">
                                                     <label for="">Email</label>
                                                     <input type="text" class="form-control" wire:model="email"
-                                                        placeholder="Enter email address">
+                                                        placeholder="Enter email address" disabled>
                                                     @error('email')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -135,8 +135,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group"><button type="submit" class="btn btn-primary">Save
-                                                changes</button></div>
+                                        <div class="form-group"><button type="submit" class="btn btn-primary"><span
+                                                    wire:loading.remove>Save Changes</span>
+                                                <span wire:loading>Saving... wait</span></button></div>
                                     </form>
                                 </div>
                             </div>

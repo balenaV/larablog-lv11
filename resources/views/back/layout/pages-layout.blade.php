@@ -6,6 +6,10 @@
     <meta charset="utf-8" />
     <title>@yield('pageTitle')</title>
 
+    {{-- Kropify --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
     <!-- Site favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/back/vendors/images/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/back/vendors/images/favicon-32x32.png" />
@@ -22,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/icon-font.min.css" />
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/style.css" />
 
+    @kropifyStyles
     @stack('stylesheets')
 </head>
 
@@ -357,23 +362,24 @@
     <script src="/back/vendors/scripts/process.js"></script>
     <script src="/back/vendors/scripts/layout-settings.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @kropifyScripts
     <script>
         // Configura o visual padrão do Toast no SweetAlert2
         const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        width: 'auto',
-        padding: '0.5em 1em',
-        color: '#fff',
-        iconColor: '#fff',
-        didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-        }
-    });
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            width: 'auto',
+            padding: '0.5em 1em',
+            color: '#fff',
+            iconColor: '#fff',
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
 
         // Escuta o evento do seu PHP Livewire perfeitamente
         window.addEventListener('showToastr', function(event) {

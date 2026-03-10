@@ -23,3 +23,45 @@
 
     @livewire('admin.profile')
 @endsection
+@push('scripts')
+    <script>
+        const cropper = new Kropify('input[type="file"][id="profilePictureFile"]', {
+            aspectRatio: 1,
+            viewMode: 1,
+            preview: 'image#profilePicturePreview',
+            processURL: '{{ route('admin.update_profile_picture') }}', // or processURL:'/crop'
+            maxSize: 2 * 1024 * 1024, // 2MB
+            allowedExtensions: ['jpg', 'jpeg', 'png'],
+            showLoader: true,
+            animationClass: 'pulse',
+            // fileName: 'avatar', // leave this commented if you want it to default to the input name
+            cancelButtonText: 'Cancel',
+            resetButtonText: 'Reset',
+            cropButtonText: 'Crop & Upload',
+            maxWoH: 500,
+            onError: function(msg) {
+                Toast.fire({
+                    icon: 'error',
+                    title: msg,
+                    background: '#ef4444' // Vermelho
+                });
+            },
+            onDone: function(data) {
+                // Verifica se o status do PHP é 1 (Sucesso)
+                const isSuccess = data.status == 1;
+
+                // Dispara a notificação verde (sucesso) ou vermelha (erro) vinda do PHP
+                Toast.fire({
+                    icon: isSuccess ? 'success' : 'error',
+                    title: data.message, // Puxa a mensagem do seu Controller PHP
+                    background: isSuccess ? '#22c55e' : '#ef4444'
+                });
+
+                if (isSuccess) {
+                    Livewire.dispatch('updateTopUserInfo');
+                    Livewire.dispatch('updateProfile');
+                }
+            }
+        });
+    </script>
+@endpush

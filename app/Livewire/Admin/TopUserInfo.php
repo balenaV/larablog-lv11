@@ -2,13 +2,16 @@
 
 namespace App\Livewire\Admin;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class TopUserInfo extends Component
 {
-    protected $listeners = [
-        'updateTopUserInfo'=>'$refresh'
-    ];
+    #[On('updateTopUserInfo')]
+    public function refreshTopUserInfo()
+    {
+        auth()->user()->refresh();
+    }
 
     public function render()
     {

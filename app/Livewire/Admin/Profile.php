@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -11,11 +12,8 @@ class Profile extends Component
     #region Propriedades
     #[Url(keep: true)]
     public $tab = '';
-    public $name;
-    public $email;
-    public $username;
-    public $bio;
-    #endregion
+    public $name, $email, $username, $bio;
+   #endregion
 
     public function selectTab($tabName)
     {
@@ -34,6 +32,13 @@ class Profile extends Component
         }
     }
 
+     #[On('updateProfile')]
+    public function refreshProfile()
+    {
+        $user = auth()->user()->refresh();
+        $this->fill($user->only(['name', 'email', 'username', 'bio']));
+    }
+
     public function updatePersonalDetails()
     {
         $user = auth()->user();
@@ -47,14 +52,18 @@ class Profile extends Component
         $userUpdated = $user->update($validatedData);
 
         if ($userUpdated) {
-            $this->dispatch('showToastr',
-            type: 'success',
-             message: 'Your personal details have been updated successfully.');
-             $this->dispatch('updateTopUserInfo')->to(TopUserInfo::class);
+            $this->dispatch(
+                'showToastr',
+                type: 'success',
+                message: 'Your personal details have been updated successfully.'
+            );
+            $this->dispatch('updateTopUserInfo')->to(TopUserInfo::class);
         } else {
-            $this->dispatch('showToastr',
-             type: 'error',
-             message: 'Something went wrong.');
+            $this->dispatch(
+                'showToastr',
+                type: 'error',
+                message: 'Something went wrong.'
+            );
         }
     }
     public function render()

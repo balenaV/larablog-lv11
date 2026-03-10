@@ -17,7 +17,7 @@ class CMail
         $mail->Encoding = 'base64';
 
         try {
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            $mail->SMTPDebug = SMTP::DEBUG_OFF;
             $mail->isSMTP();
             $mail->Host       = config('services.mail.host');
             $mail->SMTPAuth   = true;

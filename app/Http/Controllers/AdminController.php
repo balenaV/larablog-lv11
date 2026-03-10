@@ -65,6 +65,11 @@ class AdminController extends Controller
     {
         $request->validate([
             'profilePictureFile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            'profilePictureFile.required' => 'The profile picture is required.',
+            'profilePictureFile.image'    => 'The file must be an image.',
+            'profilePictureFile.mimes'    => 'Wrong format! Accepted formats: jpeg, png, jpg ou gif.',
+            'profilePictureFile.max'      => 'The image must not exceed 2MB.',
         ]);
 
         $user = auth()->user();

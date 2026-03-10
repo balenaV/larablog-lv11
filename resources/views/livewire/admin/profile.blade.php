@@ -3,9 +3,12 @@
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
             <div class="pd-20 card-box height-100-p">
                 <div class="profile-photo">
-                    <a href="javascript:;" onclick="event.preventDefault();document.getElementById('profilePictureFile').click();" class="edit-avatar"><i class="fa fa-pencil"></i></a>
+                    <a href="javascript:;"
+                        onclick="event.preventDefault();document.getElementById('profilePictureFile').click();"
+                        class="edit-avatar"><i class="fa fa-pencil"></i></a>
                     <img src="{{ $user->picture }}" alt="" class="avatar-photo" id="profilePicturePreview">
-                    <input type="file" name="profilePictureFile" id="profilePictureFile" class="d-none" style="opacity: 0">
+                    <input type="file" name="profilePictureFile" id="profilePictureFile" class="d-none"
+                        style="opacity: 0">
                 </div>
                 <h5 class="text-center h5 mb-0">{{ $user->name }}</h5>
                 <p class="text-center text-muted font-14">
@@ -97,7 +100,7 @@
                                     <form wire:submit="updatePersonalDetails()">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label for="">Full name</label>
                                                     <input type="text" class="form-control" wire:model="name"
                                                         placeholder="Enter full name">
@@ -107,7 +110,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label for="">Email</label>
                                                     <input type="text" class="form-control" wire:model="email"
                                                         placeholder="Enter email address" disabled>
@@ -117,7 +120,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label for="">Username</label>
                                                     <input type="text" class="form-control" wire:model="username"
                                                         placeholder="Enter username">
@@ -127,7 +130,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label for="">Bio</label>
                                                     <textarea class="form-control" wire:model="bio" cols="4" rows="4" placeholder="Type your bio..."></textarea>
                                                     @error('bio')
@@ -136,7 +139,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group"><button type="submit" class="btn btn-primary"><span
+                                        <div class="mb-3 d-flex justify-content-end"><button type="submit" class="btn btn-primary"><span
                                                     wire:loading.remove>Save Changes</span>
                                                 <span wire:loading>Saving... wait</span></button></div>
                                     </form>
@@ -145,7 +148,46 @@
                             <div class="tab-pane fade {{ $tab == 'update_password' ? 'show active' : '' }}"
                                 id="update_password" role="tabpanel">
                                 <div class="pd-20 profile-task-wrap">
-                                    ---- Update Password ----
+                                    <form wire:submit='updatePassword()'>
+                                        <div class="row">
+                                            {{-- Senha atual --}}
+                                            <div class="col-12 col-lg-4">
+                                                <div class="mb-3"><label for="">Current password</label>
+                                                    <input type="password" class="form-control"
+                                                        wire:model='current_password'
+                                                        placeholder="Enter current password">
+                                                    @error('current_password')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            {{-- Nova senha --}}
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="mb-3"><label for="">New password</label>
+                                                    <input type="password" class="form-control"
+                                                        wire:model='new_password'
+                                                        placeholder="Enter new password">
+                                                    @error('new_password')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            {{-- Confirmar nova senha --}}
+                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="mb-3"><label for="">Confirm new password</label>
+                                                    <input type="password" class="form-control"
+                                                        wire:model='new_password_confirmation'
+                                                        placeholder="Confirm new password">
+                                                    @error('new_password_confirmation')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 d-flex justify-content-end"><button type="submit" class="btn btn-primary"><span
+                                                    wire:loading.remove>Update password</span>
+                                                <span wire:loading>Updating... wait</span></button></div>
+                                    </form>
                                 </div>
                             </div>
                             <div class="tab-pane fade {{ $tab == 'social_links' ? 'show active' : '' }}"
@@ -164,24 +206,24 @@
                                                 <h4 class="text-blue h5 mb-20">
                                                     Edit Your Personal Setting
                                                 </h4>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Full Name</label>
                                                     <input class="form-control form-control-lg" type="text">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Title</label>
                                                     <input class="form-control form-control-lg" type="text">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Email</label>
                                                     <input class="form-control form-control-lg" type="email">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Date of birth</label>
                                                     <input class="form-control form-control-lg date-picker"
                                                         type="text">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Gender</label>
                                                     <div class="d-flex">
                                                         <div class="custom-control custom-radio mb-5 mr-20">
@@ -198,7 +240,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Country</label>
                                                     <div
                                                         class="dropdown bootstrap-select form-control form-control-lg">
@@ -231,31 +273,31 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>State/Province/Region</label>
                                                     <input class="form-control form-control-lg" type="text">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Postal Code</label>
                                                     <input class="form-control form-control-lg" type="text">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Phone Number</label>
                                                     <input class="form-control form-control-lg" type="text">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Address</label>
                                                     <textarea class="form-control"></textarea>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Visa Card Number</label>
                                                     <input class="form-control form-control-lg" type="text">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Paypal ID</label>
                                                     <input class="form-control form-control-lg" type="text">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <div class="custom-control custom-checkbox mb-5">
                                                         <input type="checkbox" class="custom-control-input"
                                                             id="customCheck1-1">
@@ -264,7 +306,7 @@
                                                             emails</label>
                                                     </div>
                                                 </div>
-                                                <div class="form-group mb-0">
+                                                <div class="mb-3 mb-0">
                                                     <input type="submit" class="btn btn-primary"
                                                         value="Update Information">
                                                 </div>
@@ -273,57 +315,57 @@
                                                 <h4 class="text-blue h5 mb-20">
                                                     Edit Social Media links
                                                 </h4>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Facebook URL:</label>
                                                     <input class="form-control form-control-lg" type="text"
                                                         placeholder="Paste your link here">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Twitter URL:</label>
                                                     <input class="form-control form-control-lg" type="text"
                                                         placeholder="Paste your link here">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Linkedin URL:</label>
                                                     <input class="form-control form-control-lg" type="text"
                                                         placeholder="Paste your link here">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Instagram URL:</label>
                                                     <input class="form-control form-control-lg" type="text"
                                                         placeholder="Paste your link here">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Dribbble URL:</label>
                                                     <input class="form-control form-control-lg" type="text"
                                                         placeholder="Paste your link here">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Dropbox URL:</label>
                                                     <input class="form-control form-control-lg" type="text"
                                                         placeholder="Paste your link here">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Google-plus URL:</label>
                                                     <input class="form-control form-control-lg" type="text"
                                                         placeholder="Paste your link here">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Pinterest URL:</label>
                                                     <input class="form-control form-control-lg" type="text"
                                                         placeholder="Paste your link here">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Skype URL:</label>
                                                     <input class="form-control form-control-lg" type="text"
                                                         placeholder="Paste your link here">
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="mb-3">
                                                     <label>Vine URL:</label>
                                                     <input class="form-control form-control-lg" type="text"
                                                         placeholder="Paste your link here">
                                                 </div>
-                                                <div class="form-group mb-0">
+                                                <div class="mb-3 mb-0">
                                                     <input type="submit" class="btn btn-primary"
                                                         value="Save &amp; Update">
                                                 </div>

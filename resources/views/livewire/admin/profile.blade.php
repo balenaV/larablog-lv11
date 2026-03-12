@@ -151,7 +151,7 @@
                                     <form wire:submit='updatePassword()'>
                                         <div class="row">
                                             {{-- Senha atual --}}
-                                            <div class="col-12 col-lg-4">
+                                            <div class="col-12">
                                                 <div class="mb-3"><label for="">Current password</label>
                                                     <input type="password" class="form-control"
                                                         wire:model='current_password'
@@ -162,7 +162,7 @@
                                                 </div>
                                             </div>
                                             {{-- Nova senha --}}
-                                            <div class="col-12 col-md-6 col-lg-4">
+                                            <div class="col-12 col-md-6">
                                                 <div class="mb-3"><label for="">New password</label>
                                                     <input type="password" class="form-control"
                                                         wire:model='new_password'
@@ -173,7 +173,7 @@
                                                 </div>
                                             </div>
                                             {{-- Confirmar nova senha --}}
-                                            <div class="col-12 col-md-6 col-lg-4">
+                                            <div class="col-12 col-md-6">
                                                 <div class="mb-3"><label for="">Confirm new password</label>
                                                     <input type="password" class="form-control"
                                                         wire:model='new_password_confirmation'

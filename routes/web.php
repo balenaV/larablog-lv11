@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Middleware\PreventBackHistory;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,7 +31,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
     });
 
-    Route::middleware(['auth'])->group(function () {
+    Route::middleware(['auth', PreventBackHistory::class])->group(function () {
         Route::controller(AdminController::class)->group(function(){
             Route::get('/dashboard','adminDashboard')->name('dashboard');
             Route::post('/logout','logoutHandler')->name('logout');

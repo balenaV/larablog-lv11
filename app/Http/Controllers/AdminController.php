@@ -91,13 +91,26 @@ class AdminController extends Controller
 
             return response()->json([
                 'status' => 1,
-                'message' => 'Sua foto de perfil foi atualizada com sucesso!'
+                'message' => 'Your profile picture have been updated successfully!'
             ]);
         }
 
         return response()->json([
             'status' => 0,
-            'message' => 'Algo deu errado ao salvar a imagem.'
+            'message' => 'Something went wrong'
         ]);
+    }
+    public function generalSettings(Request $request){
+        try {
+            $data = [
+                'pageTitle' => 'General settings'
+            ];
+
+            return view('back.pages.general_settings', $data);
+        } catch (Throwable $e) {
+            Log::error("Erro ao carregar a página de configuração geral: " . $e->getMessage());
+
+            return redirect()->route('admin.dashboard')->with('error', 'Erro ao abrir configuração geral.');
+        }
     }
 }

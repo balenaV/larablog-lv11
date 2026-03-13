@@ -54,7 +54,7 @@
 			>
 				<div class="brand-logo">
 					<a href="login.html">
-						<img src="/back/vendors/images/deskapp-logo.svg" alt="" />
+						<img src="/back/src/images/logo-no-bg.png" alt="" />
 					</a>
 				</div>
 				<div class="login-menu">

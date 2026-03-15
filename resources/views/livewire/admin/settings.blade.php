@@ -56,8 +56,8 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for=""><b>Site Meta Keywords</b></label>
-                                    <input type="text" class="form-control" wire:model='site_meta_keywords' id=""
-                                        placeholder="Eg: ecommerce, free api, laravel">
+                                    <input type="text" class="form-control" wire:model='site_meta_keywords'
+                                        id="" placeholder="Eg: ecommerce, free api, laravel">
                                     @error('site_meta_keywords')
                                         <span class="text-danger ms-1">{{ $message }}</span>
                                     @enderror
@@ -66,9 +66,10 @@
                         </div>
                         <div class="mb-3">
                             <label for=""><b>Site Meta Description</b><small> (Optional)</small></label>
-                            <textarea   cols="4" rows="4" wire:model='site_meta_description' class="form-control" placeholder="Type site meta description..."></textarea>
+                            <textarea cols="4" rows="4" wire:model='site_meta_description' class="form-control"
+                                placeholder="Type site meta description..."></textarea>
                             @error('site_meta_description')
-                            <div class="text-danger ms-1">{{ $message }}</div>
+                                <div class="text-danger ms-1">{{ $message }}</div>
                             @enderror
                         </div>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -78,7 +79,32 @@
             <div class="tab-pane fade {{ $tab == 'logo_favicon' ? 'active show' : '' }}" id="logo_favicon"
                 role="tabpanel">
                 <div class="pd-20">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Site Logo</h6>
+                            <div class="mb-2 mt-1 mw-200px">
+                                <img wire:ignore
+                                    src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : '' }}"
+                                    data-default-src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : '' }}"
+                                    id="preview_site_logo" alt="" class="img-thumbnail">
 
+                                <button type="button" id="btn_cancel_logo"
+                                    class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 d-none"
+                                     title="Cancelar alteração">
+                                    X
+                                </button>
+                            </div>
+                            <form action="{{ route('admin.update_logo') }}" method="post"
+                                enctype="multipart/form-data" id="updateLogoForm">
+                                @csrf
+                                <div class="mb-2">
+                                    <input type="file" class="form-control" name="site_logo" id="site_logo">
+                                    <span class="text-danger ms-1"></span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Change Logo</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

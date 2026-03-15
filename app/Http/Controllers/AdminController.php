@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GeneralSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -100,7 +101,8 @@ class AdminController extends Controller
             'message' => 'Something went wrong'
         ]);
     }
-    public function generalSettings(Request $request){
+    public function generalSettings(Request $request)
+    {
         try {
             $data = [
                 'pageTitle' => 'General settings'
@@ -111,6 +113,58 @@ class AdminController extends Controller
             Log::error("Erro ao carregar a página de configuração geral: " . $e->getMessage());
 
             return redirect()->route('admin.dashboard')->with('error', 'Erro ao abrir configuração geral.');
+        }
+    }
+
+    public function updateLogo(Request $request)
+    {
+        $settings = GeneralSetting::first();
+
+        if (!$settings) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'Make sure you updated general settings form first.'
+            ], 400); // Bad request
+        }
+
+        if (!$request->hasFile('site_logo') || !$request->file('site_logo')->isValid()) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'No valid image file received.'
+            ], 400); // Bad request
+        }
+
+        try {
+            $path = 'images/site/';
+            $file = $request->file('site_logo');
+
+            // Pega a extensão real do arquivo
+            $extension = $file->getClientOriginalExtension();
+            $filename = 'logo_' . uniqid() . '.' . $extension;
+
+            // Faz o upload
+            $file->move(public_path($path), $filename);
+
+            // Remove a imagem antiga se existir
+            $old_logo = $settings->site_logo;
+            if (!empty($old_logo) && File::exists(public_path($path . $old_logo))) {
+                File::delete(public_path($path . $old_logo));
+            }
+
+            $settings->update(['site_logo' => $filename]);
+
+            return response()->json([
+                'status' => 1,
+                'image_path' => $path . $filename,
+                'message' => 'Site logo has been updated successfully.'
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error('Erro ao atualizar logo: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => 0,
+                'message' => 'Something went wrong in uploading new logo.'
+            ], 500);
         }
     }
 }

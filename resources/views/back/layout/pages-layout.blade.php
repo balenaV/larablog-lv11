@@ -273,9 +273,9 @@
 
     <div class="left-side-bar">
         <div class="brand-logo">
-            <a href="index.html">
-                <img src="\back\src\images\logo-no-bg.png" alt="" class="dark-logo" />
-                <img src="\back\src\images\logo-no-bg.png" alt="" class="light-logo" />
+            <a href="/">
+                <img src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : ''}}" alt="" class="dark-logo site_logo sidebar-logo" />
+                <img src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : ''}}" alt="" class="light-logo site_logo sidebar-logo" />
             </a>
             <div class="close-sidebar" data-toggle="left-sidebar-close">
                 <i class="ion-close-round"></i>

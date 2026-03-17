@@ -87,11 +87,7 @@ class Profile extends Component
             Session::flash('info', 'You password have been updated successfully. Please login with your new password!');
             return $this->redirectRoute('admin.login');
         } else {
-            $this->dispatch(
-                'showToastr',
-                type: 'error',
-                message: 'Something went wrong.'
-            );
+            $this->notifyToastr($passwordUpdated,"");
         }
     }
 

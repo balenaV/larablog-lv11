@@ -9,3 +9,14 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+
+.mw-200px {
+  max-width: 200px !important;
+}
+
+.sidebar-logo {
+    max-height: 50px !important; /* Ajuste esse valor como preferir */
+    max-width: 100% !important;  /* Impede que a imagem vaze para os lados */
+    object-fit: contain !important; /* Garante que a foto não fique esticada/esmagada */
+}

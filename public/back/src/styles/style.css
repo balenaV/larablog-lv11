@@ -128,7 +128,7 @@ p {
 	width: 0%;
 	height: 8px;
 	display: block;
-	background: #1b00ff;
+	background: #1E82A4;
 }
 .pre-loader .percent{
 	text-align: center;
@@ -1131,10 +1131,9 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, tabl
 	font-size: 16px;
 }
 .user-info-dropdown .dropdown-toggle .user-icon{
-	width: 52px;
-	height: 52px;
+	width: 35px;
+	height: 20px;
 	font-size: 24px;
-	background: #ebeff3;
 	color: #1b00ff;
 	line-height: 52px;
 	text-align: center;
@@ -1143,14 +1142,15 @@ table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, tabl
 	-webkit-border-radius: 100%;
 	-moz-border-radius: 100%;
 	border-radius: 100%;
-	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, .18);
-	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, .18);
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, .18);
 }
 .user-info-dropdown .dropdown-toggle .user-icon img{
 	-webkit-border-radius: 100%;
 	-moz-border-radius: 100%;
 	border-radius: 100%;
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 .user-info-dropdown .dropdown-toggle .user-name{
 	font-weight: 500;

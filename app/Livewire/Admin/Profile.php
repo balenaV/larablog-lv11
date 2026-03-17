@@ -17,6 +17,7 @@ class Profile extends Component
     public $tab = '';
     public $name, $email, $username, $bio;
     public $current_password, $new_password, $new_password_confirmation;
+    public $facebook_url,$instagram_url,$youtube_url,$linkedin_url,$x_url,$github_url, $social_links = [];
     #endregion
 
     public function selectTab($tabName)
@@ -28,6 +29,10 @@ class Profile extends Component
     {
         $user = auth()->user();
 
+        // Carrega as informações do Usuário incluindo o polimorfismo dos social_links
+        $user->load('social_links');
+
+        // Preenche os dados atuais com base nas informações do Usuário
         $this->fill($user->toArray());
 
         // Só define o padrão se a URL estiver vazia

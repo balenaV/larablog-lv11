@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\UserSocialLink;
 use App\UserStatus;
 use App\UserType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,5 +60,9 @@ class User extends Authenticatable
 
     public function getPictureAttribute($value){
         return $value ? asset('/images/users/'.$value) : asset('/images/users/default-avatar.png');
+    }
+
+    public function social_links(){
+        return $this->belongsTo(UserSocialLink::class,'id','user_id');
     }
 }

@@ -77,17 +77,17 @@
                     <div class="tab height-100-p">
                         <ul class="nav nav-tabs customtab" role="tablist">
                             <li class="nav-item">
-                                <a wire:click="selectTab('personal_details')"
+                                <a wire:click="$set('tab', 'personal_details')"
                                     class="nav-link {{ $tab == 'personal_details' ? 'active' : '' }}" data-toggle="tab"
                                     href="#personal_details" role="tab">Personal details</a>
                             </li>
                             <li class="nav-item">
-                                <a wire:click="selectTab('update_password')"
+                                <a wire:click="$set('tab', 'update_password')"
                                     class="nav-link {{ $tab == 'update_password' ? 'active' : '' }}" data-toggle="tab"
                                     href="#update_password" role="tab">Update password</a>
                             </li>
                             <li class="nav-item">
-                                <a wire:click="selectTab('social_links')"
+                                <a wire:click="$set('tab', 'social_links')"
                                     class="nav-link {{ $tab == 'social_links' ? 'active' : '' }}" data-toggle="tab"
                                     href="#social_links" role="tab">Social Links</a>
                             </li>
@@ -106,7 +106,7 @@
                                                     <input type="text" class="form-control" wire:model="name"
                                                         placeholder="Enter full name">
                                                     @error('name')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger ms-1">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -116,7 +116,7 @@
                                                     <input type="text" class="form-control" wire:model="email"
                                                         placeholder="Enter email address" disabled>
                                                     @error('email')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger ms-1">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -126,7 +126,7 @@
                                                     <input type="text" class="form-control" wire:model="username"
                                                         placeholder="Enter username">
                                                     @error('username')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger ms-1">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -135,7 +135,7 @@
                                                     <label for="">Bio</label>
                                                     <textarea class="form-control" wire:model="bio" cols="4" rows="4" placeholder="Type your bio..."></textarea>
                                                     @error('bio')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger ms-1">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>

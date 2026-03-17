@@ -31,18 +31,19 @@
 </head>
 
 <body>
-    <div class="pre-loader">
+    {{-- TELA DE CARREGAMENTO --}}
+
+    {{-- <div class="pre-loader">
         <div class="pre-loader-box">
-            <div class="loader-logo">
-                <img src="/back/vendors/images/deskapp-logo.svg" alt="" />
+            <div class="loader-logo mb-4">
+                <img src="\back\src\images\image.png" alt="" />
             </div>
             <div class="loader-progress" id="progress_div">
                 <div class="bar" id="bar1"></div>
             </div>
             <div class="percent" id="percent1">0%</div>
-            <div class="loading-text">Loading...</div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="header">
         <div class="header-left">
@@ -168,10 +169,10 @@
                 </div>
             </div>
             @livewire('admin.top-user-info')
-            <div class="github-link">
-                <a href="https://github.com/dropways/deskapp" target="_blank"><img
+            {{-- <div class="github-link">
+                <a href="https://github.com/balenav" target="_blank"><img
                         src="/back/vendors/images/github.svg" alt="" /></a>
-            </div>
+            </div> --}}
         </div>
     </div>
 
@@ -272,9 +273,9 @@
 
     <div class="left-side-bar">
         <div class="brand-logo">
-            <a href="index.html">
-                <img src="/back/vendors/images/deskapp-logo.svg" alt="" class="dark-logo" />
-                <img src="/back/vendors/images/deskapp-logo-white.svg" alt="" class="light-logo" />
+            <a href="/">
+                <img src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : ''}}" alt="" class="dark-logo site_logo sidebar-logo" />
+                <img src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : ''}}" alt="" class="light-logo site_logo sidebar-logo" />
             </a>
             <div class="close-sidebar" data-toggle="left-sidebar-close">
                 <i class="ion-close-round"></i>
@@ -330,7 +331,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="" class="dropdown-toggle no-arrow">
+                        <a href="{{ route('admin.settings') }}" class="dropdown-toggle no-arrow">
                             <span class="micon fa fa-cogs"></span>
                             <span class="mtext">General
                             </span>
@@ -350,7 +351,7 @@
                 </div>
             </div>
             <div class="footer-wrap pd-20 mb-20 card-box">
-                Larablog developed By
+                devBlog developed By
                 <a href="https://github.com/balenaV" target="_blank">Victor Balena</a>
             </div>
         </div>

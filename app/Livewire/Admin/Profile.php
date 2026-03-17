@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Helpers\CMail;
+use App\Livewire\Traits\AlertsToastr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\On;
@@ -11,6 +12,7 @@ use Livewire\Component;
 
 class Profile extends Component
 {
+    use AlertsToastr;
 
     #region Propriedades
     #[Url(keep: true)]
@@ -87,11 +89,7 @@ class Profile extends Component
             Session::flash('info', 'You password have been updated successfully. Please login with your new password!');
             return $this->redirectRoute('admin.login');
         } else {
-            $this->dispatch(
-                'showToastr',
-                type: 'error',
-                message: 'Something went wrong.'
-            );
+            $this->notifyToastr($passwordUpdated,"");
         }
     }
 
@@ -107,20 +105,7 @@ class Profile extends Component
 
         $userUpdated = $user->update($validatedData);
 
-        if ($userUpdated) {
-            $this->dispatch(
-                'showToastr',
-                type: 'success',
-                message: 'Your personal details have been updated successfully.'
-            );
-            $this->dispatch('updateTopUserInfo')->to(TopUserInfo::class);
-        } else {
-            $this->dispatch(
-                'showToastr',
-                type: 'error',
-                message: 'Something went wrong.'
-            );
-        }
+       $this->notifyToastr($userUpdated,"Your personal details have been updated successfully.");
     }
     public function render()
     {

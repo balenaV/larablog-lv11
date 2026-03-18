@@ -19,7 +19,7 @@ class Profile extends Component
     public $tab = '';
     public $name, $email, $username, $bio;
     public $current_password, $new_password, $new_password_confirmation;
-    public $facebook_url,$instagram_url,$youtube_url,$linkedin_url,$x_url,$github_url, $social_links = [];
+    public $social_links = [];
     #endregion
 
     public function selectTab($tabName)
@@ -41,6 +41,13 @@ class Profile extends Component
         if (empty($this->tab)) {
             $this->tab = 'personal_details';
         }
+    }
+
+    public function render()
+    {
+        return view('livewire.admin.profile', [
+            'user' => auth()->user()
+        ]);
     }
 
     #[On('updateProfile')]
@@ -89,7 +96,7 @@ class Profile extends Component
             Session::flash('info', 'You password have been updated successfully. Please login with your new password!');
             return $this->redirectRoute('admin.login');
         } else {
-            $this->notifyToastr($passwordUpdated,"");
+            $this->notifyToastr($passwordUpdated, "");
         }
     }
 
@@ -105,12 +112,44 @@ class Profile extends Component
 
         $userUpdated = $user->update($validatedData);
 
-       $this->notifyToastr($userUpdated,"Your personal details have been updated successfully.");
+        $this->notifyToastr($userUpdated, "Your personal details have been updated successfully.");
     }
-    public function render()
+
+    public function updateSocialLinks()
     {
-        return view('livewire.admin.profile', [
-            'user' => auth()->user()
+        $user = auth()->user();
+
+        $validatedData = $this->validate([
+            'social_links.facebook_url' => 'nullable|url',
+            'social_links.instagram_url' => 'nullable|url',
+            'social_links.youtube_url' => 'nullable|url',
+            'social_links.x_url' => 'nullable|url',
+            'social_links.linkedin_url' => 'nullable|url',
+            'social_links.github_url' => 'nullable|url'
         ]);
+
+        $socialLinksUpdated = $user->social_links()->updateOrCreate(
+            ['user_id' => auth()->id()],
+            $validatedData['social_links']
+        ); // Se o usuário ainda já houver social_links, ele atualiza, se não, cria uma
+
+        $this->notifyToastr($socialLinksUpdated, "Your social links have been updated successfully.");
+    }
+
+    /**
+     * Atribui 'apelidos' aos inputs na validação do frontend
+     *
+     * @return void
+     */
+    protected function validationAttributes()
+    {
+        return [
+            'social_links.facebook_url' => 'Facebook URL',
+            'social_links.instagram_url' => 'Instagram URL',
+            'social_links.youtube_url' => 'YouTube URL',
+            'social_links.linkedin_url' => 'LinkedIn URL',
+            'social_links.x_url' => 'X URL',
+            'social_links.github_url' => 'GitHub URL',
+        ];
     }
 }

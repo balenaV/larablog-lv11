@@ -167,4 +167,56 @@ class AdminController extends Controller
             ], 500);
         }
     }
+
+    public function updateFavicon(Request $request)
+    {
+        $settings = GeneralSetting::first();
+
+        if (!$settings) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'Make sure you updated general settings form first.'
+            ], 400); // Bad request
+        }
+
+        if (!$request->hasFile('site_favicon') || !$request->file('site_favicon')->isValid()) {
+            return response()->json([
+                'status' => 0,
+                'message' => 'No valid image file received.'
+            ], 400); // Bad request
+        }
+
+        try {
+            $path = 'images/site/';
+            $file = $request->file('site_favicon');
+
+            // Pega a extensão real do arquivo
+            $extension = $file->getClientOriginalExtension();
+            $filename = 'logo_' . uniqid() . '.' . $extension;
+
+            // Faz o upload
+            $file->move(public_path($path), $filename);
+
+            // Remove a imagem antiga se existir
+            $old_favicon = $settings->site_favicon;
+            if (!empty($old_favicon) && File::exists(public_path($path . $old_favicon))) {
+                File::delete(public_path($path . $old_favicon));
+            }
+
+            $settings->update(['site_favicon' => $filename]);
+
+            return response()->json([
+                'status' => 1,
+                'image_path' => $path . $filename,
+                'message' => 'Site favicon has been updated successfully.'
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error('Erro ao atualizar logo: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => 0,
+                'message' => 'Something went wrong in uploading new logo.'
+            ], 500);
+        }
+    }
 }

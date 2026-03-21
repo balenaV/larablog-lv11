@@ -80,20 +80,22 @@
                 role="tabpanel">
                 <div class="pd-20">
                     <div class="row">
-                        <div class="col-md-6">
+                        {{-- Site Logo --}}
+                        <div class="col-md-6 mb-3 d-flex flex-column">
                             <h6>Site Logo</h6>
-                            <div class="mb-2 mt-1 mw-200px">
+
+                            <div class="position-relative mb-3" style="width: 200px; height: 120px;">
                                 <img wire:ignore
                                     src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : '' }}"
                                     data-default-src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : '' }}"
-                                    id="preview_site_logo" alt="" class="img-thumbnail">
+                                    id="preview_site_logo" alt="Site Logo" class="img-thumbnail w-100 h-100"
+                                    style="object-fit: contain; background-color: #f8f9fa;">
 
                                 <button type="button" id="btn_cancel_logo"
                                     class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 d-none"
-                                     title="Cancelar alteração">
-                                    X
-                                </button>
+                                    title="Cancelar alteração">X</button>
                             </div>
+
                             <form action="{{ route('admin.update_logo') }}" method="post"
                                 enctype="multipart/form-data" id="updateLogoForm">
                                 @csrf
@@ -102,6 +104,34 @@
                                     <span class="text-danger ms-1"></span>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Change Logo</button>
+                            </form>
+                        </div>
+
+                        {{-- Site Favicon --}}
+                        <div class="col-md-6 mb-3 d-flex flex-column">
+                            <h6>Site Favicon</h6>
+
+                            <div class="position-relative mb-3" style="width: 120px; height: 120px;">
+                                <img wire:ignore
+                                    src="/images/site/{{ isset(settings()->site_favicon) ? settings()->site_favicon : '' }}"
+                                    data-default-src="/images/site/{{ isset(settings()->site_favicon) ? settings()->site_favicon : '' }}"
+                                    id="preview_site_favicon" alt="Site Favicon" class="img-thumbnail w-100 h-100"
+                                    style="object-fit: contain; background-color: #f8f9fa;">
+
+                                <button type="button" id="btn_cancel_favicon"
+                                    class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 d-none"
+                                    title="Cancelar alteração">X</button>
+                            </div>
+
+                            <form action="{{ route('admin.update_favicon') }}" method="post"
+                                enctype="multipart/form-data" id="updateFaviconForm">
+                                @csrf
+                                <div class="mb-2">
+                                    <input type="file" class="form-control" name="site_favicon"
+                                        id="site_favicon">
+                                    <span class="text-danger ms-1"></span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Change Favicon</button>
                             </form>
                         </div>
                     </div>

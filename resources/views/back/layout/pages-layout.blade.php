@@ -11,9 +11,12 @@
 
 
     <!-- Site favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/back/vendors/images/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/back/vendors/images/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/back/vendors/images/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="/images/site/{{ isset(settings()->site_favicon) ? settings()->site_favicon : '' }}" />
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="/images/site/{{ isset(settings()->site_favicon) ? settings()->site_favicon : '' }}" />
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="/images/site/{{ isset(settings()->site_favicon) ? settings()->site_favicon : '' }}" />
 
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -25,6 +28,7 @@
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/core.css" />
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/icon-font.min.css" />
     <link rel="stylesheet" type="text/css" href="/back/vendors/styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}" />
 
     @kropifyStyles
     @stack('stylesheets')
@@ -274,8 +278,11 @@
     <div class="left-side-bar">
         <div class="brand-logo">
             <a href="/">
-                <img src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : ''}}" alt="" class="dark-logo site_logo sidebar-logo" />
-                <img src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : ''}}" alt="" class="light-logo site_logo sidebar-logo" />
+                <img src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : '' }}" alt=""
+                    class="dark-logo site_logo sidebar-logo" />
+
+                <img src="/images/site/{{ isset(settings()->site_logo) ? settings()->site_logo : '' }}" alt=""
+                    class="light-logo site_logo sidebar-logo" />
             </a>
             <div class="close-sidebar" data-toggle="left-sidebar-close">
                 <i class="ion-close-round"></i>

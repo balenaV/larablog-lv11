@@ -218,5 +218,11 @@ class AdminController extends Controller
                 'message' => 'Something went wrong in uploading new logo.'
             ], 500);
         }
+    public function categoriesPage(Request $request){
+        $data = [
+            'pageTitle' => 'Manage categories'
+        ];
+
+        return view('back.pages.categories_page',$data);
     }
 }
